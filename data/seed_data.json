@@ -1,0 +1,34 @@
+{
+  "elements": {
+    "a1b2-c3d4-e5f6-7890": {
+      "element_id": "a1b2-c3d4-e5f6-7890",
+      "element_name": "Column-C01",
+      "element_type": "column",
+      "concrete_grade": "M30",
+      "aggregate_type": "standard",
+      "age_days": 28,
+      "moisture_condition": "dry",
+      "transmission_mode": "direct"
+    },
+    "b2c3-d4e5-f6g7-8901": {
+      "element_id": "b2c3-d4e5-f6g7-8901",
+      "element_name": "Beam-B12",
+      "element_type": "beam",
+      "concrete_grade": "M30",
+      "aggregate_type": "standard",
+      "age_days": 7,
+      "moisture_condition": "wet",
+      "transmission_mode": "semi_direct"
+    },
+    "c3d4-e5f6-g7h8-9012": {
+      "element_id": "c3d4-e5f6-g7h8-9012",
+      "element_name": "Foundation-F03",
+      "element_type": "foundation",
+      "concrete_grade": "M25",
+      "aggregate_type": "lightweight",
+      "age_days": 14,
+      "moisture_condition": "saturated",
+      "transmission_mode": "indirect"
+    }
+  }
+}
