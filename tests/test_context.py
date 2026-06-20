@@ -6,7 +6,7 @@ import pytest
 from uuid import uuid4
 from pydantic import ValidationError
 
-from modules.upv.context import (
+from modules.upv.a1_moisture_mode_correction import (
     apply_moisture_correction,
     apply_moisture_and_mode_corrections,
     assemble_context,
