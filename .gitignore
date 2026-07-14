@@ -1,0 +1,11 @@
+# Environments
+venv/
+.env
+
+# Python/Pytest Caches
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Output folder (optional - they can generate this on run)
+# outputs/
