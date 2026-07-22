@@ -18,3 +18,31 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+# =========================
+# Frontend (Next.js)
+# =========================
+# Frontend
+frontend/.turbo/
+frontend/node_modules/
+frontend/apps/web/.turbo/
+frontend/apps/web/.next/
+frontend/apps/web/node_modules/
+frontend/**/tsconfig.tsbuildinfo
+
+# Backend
+backend/.venv/
+backend/.env
+backend/**/__pycache__/
+
+# Logs
+*.log
+
+backend/check_revision.py
+backend/test_hash.py
+backend_files.txt
+backend_tree.txt
+frontend_files.txt
+frontend_tree.txt
+teammate_backend.txt
+teammate_frontend.txt
+frontend/apps/web/.env.local
