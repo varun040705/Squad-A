@@ -1,11 +1,32 @@
-# Environments
+# Python / Environments
+.venv/
 venv/
+ENV/
+env/
 .env
+.env.*
 
-# Python/Pytest Caches
+# Python / Pytest Caches
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .pytest_cache/
 
-# Output folder (optional - they can generate this on run)
+# Node / Next.js Dependencies & Builds
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Logs & OS Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
+# Optional Outputs
 # outputs/
