@@ -1,0 +1,19 @@
+# Python artifacts & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+
+# Ignore large dataset directory
+floor-plan.v1i.coco/
+ground_truth/ground_truth_test.json
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
