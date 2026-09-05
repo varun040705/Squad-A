@@ -1,0 +1,82 @@
+{
+  "elements": {
+    "walls": {
+      "true_positives": 3,
+      "false_positives": 1,
+      "false_negatives": 1,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1_score": 0.75
+    },
+    "doors": {
+      "true_positives": 1,
+      "false_positives": 0,
+      "false_negatives": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1_score": 0.6666666666666666
+    },
+    "windows": {
+      "true_positives": 1,
+      "false_positives": 1,
+      "false_negatives": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1_score": 0.5
+    },
+    "rooms": {
+      "true_positives": 1,
+      "false_positives": 0,
+      "false_negatives": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1_score": 0.6666666666666666
+    }
+  },
+  "scale": {
+    "ground_truth_mm_per_pixel": 4.0,
+    "prediction_mm_per_pixel": 4.2,
+    "absolute_error": 0.2,
+    "percentage_error": 5.0
+  },
+  "overall_element_f1": 0.6458333333333333,
+  "levels": [
+    {
+      "level_id": "level_1",
+      "elements": {
+        "walls": {
+          "true_positives": 3,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1_score": 0.75
+        },
+        "doors": {
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1_score": 0.6666666666666666
+        },
+        "windows": {
+          "true_positives": 1,
+          "false_positives": 1,
+          "false_negatives": 1,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1_score": 0.5
+        },
+        "rooms": {
+          "true_positives": 1,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1_score": 0.6666666666666666
+        }
+      }
+    }
+  ]
+}

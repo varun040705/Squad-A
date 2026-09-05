@@ -1,0 +1,89 @@
+{
+  "project": {
+    "levels": [
+      {
+        "id": "level_1",
+        "elevation_mm": 0,
+        "height_mm": 3000,
+
+        "walls": [
+          {
+            "id": "pred_wall_001",
+            "centerline": [[100, 100], [600, 100]],
+            "thickness_mm": 200,
+            "confidence": 0.95,
+            "openings": ["pred_door_001"],
+            "connected_walls": ["pred_wall_002"]
+          },
+          {
+            "id": "pred_wall_002",
+            "centerline": [[600, 100], [600, 500]],
+            "thickness_mm": 200,
+            "confidence": 0.92,
+            "openings": ["pred_window_001"],
+            "connected_walls": ["pred_wall_001", "pred_wall_003"]
+          },
+          {
+            "id": "pred_wall_003",
+            "centerline": [[600, 500], [100, 500]],
+            "thickness_mm": 200,
+            "confidence": 0.90,
+            "openings": ["pred_door_002"],
+            "connected_walls": ["pred_wall_002"]
+          },
+          {
+            "id": "pred_wall_extra",
+            "centerline": [[200, 200], [400, 200]],
+            "thickness_mm": 200,
+            "confidence": 0.70,
+            "openings": [],
+            "connected_walls": []
+          }
+        ],
+
+        "doors": [
+          {
+            "id": "pred_door_001",
+            "position": [300, 100],
+            "width_mm": 900
+          }
+        ],
+
+        "windows": [
+          {
+            "id": "pred_window_001",
+            "position": [600, 300],
+            "width_mm": 1200
+          },
+          {
+            "id": "pred_window_extra",
+            "position": [300, 300],
+            "width_mm": 1000
+          }
+        ],
+
+        "rooms": [
+          {
+            "id": "pred_room_001",
+            "polygon": [[100, 100], [350, 100], [350, 500], [100, 500]],
+            "label": "Room A"
+          }
+        ],
+
+        "columns": [],
+        "stairs": []
+      }
+    ],
+
+    "scale": {
+      "mm_per_pixel": 4.2,
+      "method": "known_object",
+      "confidence": 0.85
+    },
+
+    "metadata": {
+      "source_image": "sample_plan.png",
+      "units": "mm"
+    }
+  }
+}

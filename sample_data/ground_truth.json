@@ -1,0 +1,92 @@
+{
+  "project": {
+    "levels": [
+      {
+        "id": "level_1",
+        "elevation_mm": 0,
+        "height_mm": 3000,
+        "walls": [
+          {
+            "id": "wall_001",
+            "centerline": [[100, 100], [600, 100]],
+            "thickness_mm": 200,
+            "confidence": 1.0,
+            "openings": ["door_001"],
+            "connected_walls": ["wall_002"]
+          },
+          {
+            "id": "wall_002",
+            "centerline": [[600, 100], [600, 500]],
+            "thickness_mm": 200,
+            "confidence": 1.0,
+            "openings": ["window_001"],
+            "connected_walls": ["wall_001", "wall_003"]
+          },
+          {
+            "id": "wall_003",
+            "centerline": [[600, 500], [100, 500]],
+            "thickness_mm": 200,
+            "confidence": 1.0,
+            "openings": ["door_002"],
+            "connected_walls": ["wall_002", "wall_004"]
+          },
+          {
+            "id": "wall_004",
+            "centerline": [[100, 500], [100, 100]],
+            "thickness_mm": 200,
+            "confidence": 1.0,
+            "openings": ["window_002"],
+            "connected_walls": ["wall_003", "wall_001"]
+          }
+        ],
+        "doors": [
+          {
+            "id": "door_001",
+            "position": [300, 100],
+            "width_mm": 900
+          },
+          {
+            "id": "door_002",
+            "position": [400, 500],
+            "width_mm": 900
+          }
+        ],
+        "windows": [
+          {
+            "id": "window_001",
+            "position": [600, 300],
+            "width_mm": 1200
+          },
+          {
+            "id": "window_002",
+            "position": [100, 300],
+            "width_mm": 1200
+          }
+        ],
+        "rooms": [
+          {
+            "id": "room_001",
+            "polygon": [[100, 100], [350, 100], [350, 500], [100, 500]],
+            "label": "Room A"
+          },
+          {
+            "id": "room_002",
+            "polygon": [[350, 100], [600, 100], [600, 500], [350, 500]],
+            "label": "Room B"
+          }
+        ],
+        "columns": [],
+        "stairs": []
+      }
+    ],
+    "scale": {
+      "mm_per_pixel": 4.0,
+      "method": "dimension_text",
+      "confidence": 1.0
+    },
+    "metadata": {
+      "source_image": "sample_plan.png",
+      "units": "mm"
+    }
+  }
+}
