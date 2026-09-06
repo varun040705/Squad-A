@@ -14,23 +14,35 @@ def calculate_f1(precision, recall):
 
 
 def calculate_overall_element_score(elements):
-    if not elements:
-        return 0.0
-
-    f1_scores = [
+    valid_scores = [
         metrics["f1_score"]
         for metrics in elements.values()
+        if metrics.get("available", True)
     ]
 
-    return sum(f1_scores) / len(f1_scores)
+    if not valid_scores:
+        return 0.0
+
+    return sum(valid_scores) / len(valid_scores)
 
 
-def build_report(element_metrics, scale_metrics, level_reports=None):
+def build_report(
+    element_metrics,
+    scale_metrics,
+    level_reports=None
+):
     report = {
         "elements": element_metrics,
         "scale": scale_metrics,
         "overall_element_f1": calculate_overall_element_score(
             element_metrics
+        ),
+        "evaluation_status": "integration_test_only",
+        "prediction_source": "synthetic_ground_truth_adapter",
+        "note": (
+            "Predictions were generated from COCO ground truth "
+            "for pipeline integration testing. These are not "
+            "model accuracy results."
         )
     }
 
@@ -41,12 +53,16 @@ def build_report(element_metrics, scale_metrics, level_reports=None):
 
 
 def build_dataset_report(plan_reports):
+
     if not plan_reports:
         return {
             "plans_evaluated": 0,
             "elements": {},
-            "scale": {},
-            "overall_element_f1": 0.0
+            "scale": {
+                "status": "unavailable"
+            },
+            "overall_element_f1": 0.0,
+            "evaluation_status": "no_data"
         }
 
     element_types = [
@@ -75,6 +91,18 @@ def build_dataset_report(plan_reports):
             for report in plan_reports
         )
 
+        available = (
+            total_tp + total_fp + total_fn > 0
+        )
+
+        if not available:
+            combined_elements[element_type] = {
+                "available": False,
+                "status": "unavailable",
+                "reason": "No ground-truth annotations available."
+            }
+            continue
+
         precision = (
             total_tp / (total_tp + total_fp)
             if total_tp + total_fp > 0
@@ -93,6 +121,7 @@ def build_dataset_report(plan_reports):
         )
 
         combined_elements[element_type] = {
+            "available": True,
             "true_positives": total_tp,
             "false_positives": total_fp,
             "false_negatives": total_fn,
@@ -101,26 +130,27 @@ def build_dataset_report(plan_reports):
             "f1_score": f1_score
         }
 
-    scale_errors = [
-        report["scale"]["percentage_error"]
-        for report in plan_reports
-    ]
-
-    average_scale_error = (
-        sum(scale_errors) / len(scale_errors)
-    )
-
-    overall_element_f1 = calculate_overall_element_score(
-        combined_elements
-    )
-
     return {
         "plans_evaluated": len(plan_reports),
         "elements": combined_elements,
         "scale": {
-            "average_percentage_error": average_scale_error
+            "status": "unavailable",
+            "reason": (
+                "COCO dataset does not provide actual "
+                "mm_per_pixel ground-truth scale."
+            )
         },
-        "overall_element_f1": overall_element_f1
+        "overall_element_f1": calculate_overall_element_score(
+            combined_elements
+        ),
+        "evaluation_status": "integration_test_only",
+        "prediction_source": "synthetic_ground_truth_adapter",
+        "note": (
+            "The prediction files were generated from the "
+            "same COCO annotations. Therefore the resulting "
+            "Precision/Recall/F1 values are integration-test "
+            "values and must not be reported as model accuracy."
+        )
     }
 
 
@@ -130,49 +160,42 @@ def save_report(report, output_path):
         exist_ok=True
     )
 
-    with open(output_path, "w", encoding="utf-8") as file:
-        json.dump(report, file, indent=2)
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8"
+    ) as file:
+        json.dump(
+            report,
+            file,
+            indent=2
+        )
 
 
 def print_report(report):
+
     print("\nEVALUATION REPORT")
     print("=================")
 
+    if "evaluation_status" in report:
+        print(
+            f"\nStatus : "
+            f"{report['evaluation_status']}"
+        )
+
     if "plans_evaluated" in report:
         print(
-            f"\nPlans Evaluated : "
+            f"Plans Evaluated : "
             f"{report['plans_evaluated']}"
         )
-
-    if "levels" in report:
-        print(
-            f"\nLevels Evaluated : "
-            f"{len(report['levels'])}"
-        )
-
-        for level_report in report["levels"]:
-            print(
-                f"\nLevel: "
-                f"{level_report['level_id']}"
-            )
-
-            for element, metrics in level_report[
-                "elements"
-            ].items():
-
-                print(
-                    f"  {element.title():<8} "
-                    f"Precision: "
-                    f"{metrics['precision']:.2f}  "
-                    f"Recall: "
-                    f"{metrics['recall']:.2f}  "
-                    f"F1: "
-                    f"{metrics['f1_score']:.2f}"
-                )
 
     for element, metrics in report["elements"].items():
 
         print(f"\n{element.title()}")
+
+        if not metrics.get("available", True):
+            print("  Status : Unavailable")
+            continue
 
         print(
             f"  Precision : "
@@ -189,18 +212,18 @@ def print_report(report):
             f"{metrics['f1_score']:.2f}"
         )
 
-    if "overall_element_f1" in report:
-        print(
-            f"\nOverall Element F1 : "
-            f"{report['overall_element_f1']:.2f}"
-        )
+    print(
+        f"\nOverall Element F1 : "
+        f"{report['overall_element_f1']:.2f}"
+    )
 
     scale = report["scale"]
 
-    if "ground_truth_mm_per_pixel" in scale:
+    print("\nScale")
 
-        print("\nScale")
-
+    if scale.get("status") == "unavailable":
+        print("  Status : Unavailable")
+    else:
         print(
             f"  Ground Truth : "
             f"{scale['ground_truth_mm_per_pixel']:.2f} "
@@ -218,11 +241,7 @@ def print_report(report):
             f"{scale['percentage_error']:.2f}%"
         )
 
-    elif "average_percentage_error" in scale:
-
-        print("\nScale")
-
+    if "note" in report:
         print(
-            f"  Average Error : "
-            f"{scale['average_percentage_error']:.2f}%"
+            f"\nNOTE: {report['note']}"
         )

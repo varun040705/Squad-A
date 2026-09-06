@@ -37,8 +37,8 @@ def load_json(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         return json.load(file)
 
-
 def get_input_files():
+
     real_ground_truth = sorted(
         GROUND_TRUTH_DIR.glob("*.json")
     )
@@ -47,48 +47,40 @@ def get_input_files():
         PREDICTIONS_DIR.glob("*.json")
     )
 
-    if not real_ground_truth and not real_predictions:
-        print("No real project data found.")
-        print("Using sample data.")
+    if real_ground_truth and real_predictions:
 
-        return [
-            (SAMPLE_GROUND_TRUTH, SAMPLE_PREDICTION)
-        ]
+        prediction_map = {
+            file.name: file
+            for file in real_predictions
+        }
 
-    prediction_map = {
-        file.name: file
-        for file in real_predictions
-    }
+        matched_files = []
 
-    matched_files = []
+        for gt_file in real_ground_truth:
 
-    for gt_file in real_ground_truth:
-        prediction_file = prediction_map.get(
-            gt_file.name
-        )
-
-        if prediction_file:
-            matched_files.append(
-                (gt_file, prediction_file)
+            prediction_file = prediction_map.get(
+                gt_file.name
             )
-        else:
+
+            if prediction_file:
+                matched_files.append(
+                    (gt_file, prediction_file)
+                )
+
+        if matched_files:
             print(
-                f"Warning: No prediction found "
-                f"for {gt_file.name}"
+                f"Found {len(matched_files)} "
+                f"real-data pair(s)."
             )
 
-    if not matched_files:
-        print("No matching real-data pairs found.")
-        return []
+            return matched_files
 
-    print(
-        f"Found {len(matched_files)} "
-        f"real-data pair(s)."
-    )
+    print("No real-data pairs found.")
+    print("Using sample data.")
 
-    return matched_files
-
-
+    return [
+        (SAMPLE_GROUND_TRUTH, SAMPLE_PREDICTION)
+    ]
 def evaluate_element(
     ground_truth_elements,
     prediction_elements,
