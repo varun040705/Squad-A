@@ -1,0 +1,38 @@
+{
+  "elements": {
+    "walls": {
+      "true_positives": 3,
+      "false_positives": 1,
+      "false_negatives": 1,
+      "precision": 0.75,
+      "recall": 0.75
+    },
+    "doors": {
+      "true_positives": 1,
+      "false_positives": 0,
+      "false_negatives": 1,
+      "precision": 1.0,
+      "recall": 0.5
+    },
+    "windows": {
+      "true_positives": 1,
+      "false_positives": 1,
+      "false_negatives": 1,
+      "precision": 0.5,
+      "recall": 0.5
+    },
+    "rooms": {
+      "true_positives": 1,
+      "false_positives": 0,
+      "false_negatives": 1,
+      "precision": 1.0,
+      "recall": 0.5
+    }
+  },
+  "scale": {
+    "ground_truth_mm_per_pixel": 4.0,
+    "prediction_mm_per_pixel": 4.2,
+    "absolute_error": 0.2,
+    "percentage_error": 5.0
+  }
+}
