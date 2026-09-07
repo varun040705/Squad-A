@@ -1,0 +1,7 @@
+﻿__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+full_paths.txt
+01_raw_images/
